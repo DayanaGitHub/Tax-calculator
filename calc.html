@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TAX CALCULATOR</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+            <div class="col-md-4">
+                <h4 class="page-header">Basic Tax Calculator</h4>
+                <form autocomplete="off">
+                <div class="form-group">
+                    <label>product Name</label>
+                    <input type="text"  id="pname" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Rate</label>
+                    <input type="text" id="rate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Qty</label>
+                    <input type="text" id="qty" class="form-control">
+                </div>    
+                <div class="form-group">
+                    <button type="button"  id="add" class="btn btn-primary">Add Product</button>
+                </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <h4 class="page-header">Cart Items</h4>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>PRODUCT NAME</th>
+                        <th>RATE</th>
+                        <th>QTY</th>
+                        <th>TAX</th>
+                        <th>AMT</th>
+                        <th>DELETE</th>
+                    </tr>
+                </table>
+                <hr>
+                <h4 id="tot">Total Amount: 0.00</h4>
+                
+            </div>
+            </div>
+
+        </div>
+        <script>
+            $(document).ready(function(){
+                var total=0;
+                $("#add").click(function(){
+                    var pname=$("#pname").val();
+                    var rate=$("#rate").val();
+                    var qty=$("#qty").val();
+                    if(pname!=""&& rate!="" && qty!="")
+                    {
+                        var tax=(Number(rate)*Number(qty))*0.18;
+                        var amt=(Number(rate)*Number(qty))+tax;
+                        var row="<tr><td>"+pname+"</td><td>"+rate+"</td><td>"
+                        +qty+"</td><td>"+tax+"</td><td class='amt'>"+amt
+                        +"</td><td><button type='button' class='del btn btn-danger btn-xs'>Delete</button></td></tr>";
+                        total=total+amt;
+                        $(".table").append(row);
+                        $("#pname").val("");
+                        $("#rate").val("");
+                        $("#qty").val("");
+                        $("#tot").html("Total Amount: "+total);
+                    }
+                    else
+                    {
+                     alert("Please Fill All Details");   
+                    }
+                });
+                $(document).on("click", ".del", function(){
+                    var amt=$(this).closest("tr").find('.amt').html();
+                    total=total-amt;
+                    $("#tot").html("Total Amount: "+total);
+                    $(this).closest("tr").remove();
+                });
+            });
+        </script>
+    </body>
+</html>
